@@ -4,6 +4,9 @@ author: "ZZG"
 date: "7/28/2017"
 output: html_document
 ---
+```{r package_options, include=FALSE,cache=F}
+knitr::opts_chunk$set(echo = T,warning = F,message = F)
+```
 
 ## Part1: Exploratory Data Analysis
 ```{r}
@@ -12,7 +15,7 @@ library(caret);library(tidyverse)
 setwd("~/Downloads/Coursera/Practical Machine Learning_John Hopkings")
 training <- read.csv("pml-training.csv")[-1]
 testing <- read.csv("pml-testing.csv")[-1]
-summary(training)
+#summary(training)
 
 # In summary we can see lots of predictors are basicly blank or invalid
 # So the feature size is reduced to contain more valid information
@@ -36,7 +39,7 @@ featurePlot(trainingReduced[,5:10],trainingReduced$classe,"pairs")
 #featurePlot(trainingReduced[,25:35],trainingReduced$classe,"pairs")
 ```
   
-Comments:  
+###Comments:  
 1) Fitting models are more complicated than it looks. We should pre-process variables on missing values, scales and other problems.  
 2) If certain predictor has too many missing values, it won't contribute to our model, that's why I deleted quite a few variables here to make the dataset more efficient.  
 3) Try various way to explore the data is also crucial. It will help us to choose certain variables, deal with correlation if there's any, and explain our final model with more sense.  
@@ -119,7 +122,7 @@ errRates <- data.frame("Tree"=errRateTree,"LDA"=errRateLda,"NaiveBayes"=errRateN
 errRates
 ```
   
-Comments:  
+###Comments:  
 1) Here I choose 5 models to train my data: Tree, LDA, Naive Bayes, KNN, and SVM.  
 2) For certain model, such as KNN, we should pre-process the data by ourselves due to the design of the package(pacakge "class"). If we don't scale and center the training data, and the testing data, the error rate will be extremely high, which is almost like random guess.  
 3) From all 5 models, we can see SVM performs the best, and Tree performs the worst. Go back to my data, most of the variables are numerical, while Tree model is more efficient on categorical variables.  
@@ -177,7 +180,7 @@ sum(predResultTest == test$classe)/length(predResultTest)
 data.frame("Before CV"=c(errRateTree,errRateLda,errRateNb,errRateKnn,errRateSvm),"After CV"=c(errRateTreeCv,errRateLdaCv,errRateNbCv,errRateKnnCv,errRateSvmCv))
 ```
   
-Comment:    
+###Comment:    
 1) In Part2 and this Part, I both splitted the origianl training file into training data and testing data to test the predicting power.    
 2) As we say, different cross validation methods have no effects on most of my cases. KNN method show minor difference between the original algorithm and tuned algorithm, however, we can see the default tuning methods built in R packages are already doing a reasonable job.  
 3) In addition, in this part I also use the bagged algorithm to consolidate all methods, and to see whether the accuracy would beat the best one of them. However, since our models varied a lot on their performances, the combined accuracy still cannot top SVM, which has around 95% accuracy.   
@@ -210,7 +213,7 @@ sum(voteResult == svmPred)/length(voteResult)
 sum(voteResult == ldaPred)/length(voteResult)
 ```
     
-Comments:  
+###Comments:  
 Here we use all 5 models and bagged them to vote, and we get the final classification, which is quite similar to SVM model.
 
 
