@@ -1,4 +1,3 @@
 # Project_DataScience_JohnHopkins
-Coursera Course
-The code is stored in R markdown file.
-The html file shows all the comments and results. Please grade basing on the html file.
+The code running result is stored in html file. Please download to see in proper format.
+There are comments and notes along with the codes to help explain my intentions. Hopefully it will help you to read.
